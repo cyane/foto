@@ -1,14 +1,41 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+      <title>cordova-plugin-camera-preview Sample App</title>
     </ion-title>
   </ion-navbar>
 </ion-header>
 
+
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+  <button ion-button full color="secondary" *ngIf="!encendido" (click)="startCamera()">Iniciar Camara</button>
+  <button ion-button full color="danger" *ngIf="encendido" (click)="stopCamera()">Parar camara</button>
+  <ion-item-group *ngIf="encendido" class="botonesFoto">
+    <button ion-button (click)="takePicture()"><ion-icon name="camera"></ion-icon></button>
+    <button ion-button (click)="takePictureRafaga()"><ion-icon name="camera"></ion-icon><ion-icon name="camera"></ion-icon><ion-icon name="camera"></ion-icon><ion-icon name="camera"></ion-icon></button>
+    <ion-input placeholder="Cantidad de fotos" type="number" [(ngModel)]="Cantidad">Cantidad</ion-input>
+  </ion-item-group>
+  <button ion-button block *ngIf="encendido" (click)="switchCamera()">Cambiar Camara</button>
+  <button ion-button block color="dark" *ngIf="preview&&encendido" (click)="ocultar()">ocultar</button>
+  <button ion-button block color="light" *ngIf="!preview&&encendido" (click)="mostrar()">mostrar</button>
+  <ion-item *ngIf="encendido" >
+      <ion-label  >efecto</ion-label>
+      <ion-select [(ngModel)]="efectoActual"  interface="action-sheet">
+        <ion-option *ngFor="let efectoActual of efectos" [value]="efectoActual">{{efectoActual}}</ion-option>
+      </ion-select>
+  </ion-item>
+  <button  ion-button round  *ngIf="encendido" (click)="efecto()"  >Activar</button>
+  <ion-label class="info">{{info}}</ion-label>
+  <div *ngFor="let imagen of imagenPreview">
+      <ion-card  (click)="ponerImg(imagen)" [navPush]="infoFotoPage"[navParams]="paramsPhotoPage">
+        <ion-card-header>
+          Imagen
+        </ion-card-header>
+        <ion-card-content>
+            <img [src]="imagen" *ngIf="imagen" />
+        </ion-card-content>
+      </ion-card>
+    </div>
+    
 </ion-content>
